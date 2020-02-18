@@ -34,6 +34,7 @@
   },
   "scripts": {
     "server": "nodemon server/index.js",
+    "db": "node server/models/db.js",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
