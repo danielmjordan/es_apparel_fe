@@ -1,17 +1,26 @@
 const sequelize = require('./db.js');
 
-const getByDate = async () => {
+const getByDate = async (id, count = 5) => {
   try {
-    const results = await sequelize.query('SELECT * FROM reviews WHERE product_id = 5 ORDER BY DATE DESC LIMIT 2');
+    const results = await sequelize.query(`SELECT * FROM reviews WHERE product_id = ${id} ORDER BY DATE DESC LIMIT ${count}`);
     return results;
   } catch (err) {
     return err;
   }
 };
 
-const helpful = async (review_id) => {
+const helpful = async (id) => {
   try {
-    sequelize.query(`UPDATE reviews SET helpfulness = helpfulness + 1 WHERE id =${review_id}`);
+    sequelize.query(`UPDATE reviews SET helpfulness = helpfulness + 1 WHERE id =${id}`);
+  } catch (err) {
+    return err;
+  }
+};
+
+const report = async (id) => {
+  try {
+    const results = await sequelize.query(`UPDATE reviews SET reported = true WHERE id = ${id}`);
+    return results;
   } catch (err) {
     return err;
   }
@@ -20,4 +29,5 @@ const helpful = async (review_id) => {
 module.exports = {
   getByDate,
   helpful,
+  report,
 };

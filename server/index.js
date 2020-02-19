@@ -1,6 +1,8 @@
+/* eslint-disable camelcase */
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const query = require('./models/queries.js');
 
 const app = express();
 const PORT = 3000;
@@ -8,30 +10,33 @@ const PORT = 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/reviews/:productId/list', async (req, res) => {
-  const { productId } = req.params;
-  const { count, sort, page } = req.query;
-  res.status(200).send(`main get route served ${sort}`);
+app.get('/reviews/:product_id/list', async (req, res) => {
+  const { product_id } = req.params;
+  // const { count, sort, page } = req.query;
+  const results = await query.getByDate(product_id);
+  res.status(200).send(results);
 });
 
-app.get('/reviews/:productId/meta', async (req, res) => {
-  const { productId } = req.params;
+app.get('/reviews/:product_id/meta', async (req, res) => {
+  const { product_id } = req.params;
   res.status(200).send('Metadata returned from this end point');
 });
 
-app.post('/reviews/:productId', async (req, res) => {
-  const { productId } = req.params;
+app.post('/reviews/:product_id', async (req, res) => {
+  const { product_id } = req.params;
   res.status(201).send('post route served');
 });
 
 app.put('/reviews/helpful/:review_id', async (req, res) => {
   const { review_id } = req.params;
-  res.status(204).send('Helpful PUT route served');
+  await query.helpful(review_id);
+  res.status(204).send();
 });
 
 app.put('/reviews/report/:review_id', async (req, res) => {
   const { review_id } = req.params;
-  res.status(204).send('Review reported PUT served');
+  await query.report(review_id);
+  res.status(204).send();
 });
 
 app.listen(PORT, () => {
