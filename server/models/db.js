@@ -6,32 +6,27 @@ const sequelize = new Sequelize(
   process.env.DATABASE_USER,
   process.env.DATABASE_PASSWORD,
   {
-    port: process.env.PORT,
     dialect: 'postgres',
   },
 );
 
-console.log(process.env.DATABASE)
-
 try {
   sequelize.authenticate()
-    .then(() => console.log('DB up and running'));
+    .then(() => console.log('PostgreSQL up and running'));
 } catch (err) {
   return err;
 }
 
-// const models = {
-//   Review: sequelize.import('./review'),
-//   Photo: sequelize.import('./photo'),
-//   Characteristic: sequelize.import('./characteristic'),
-//   Characteristic_Review: sequelize.import('characteristic_review'),
-// };
+const getByDate = async () => {
+  try {
+    const [results, metadata] = await sequelize.query('SELECT * FROM reviews WHERE product_id = 5 ORDER BY DATE DESC LIMIT 2');
+    console.log(results, metadata);
+    return [results, metadata];
+  } catch (err) {
+    return err;
+  }
+};
 
-// Object.key(models).forEach((key) => {
-//   if ('associate' in models[key]) {
-//     models[key].associate(models);
-//   }
-// });
+getByDate();
 
-// module.exports.models = models;
-module.exports.sequelize = sequelize;
+module.exports = sequelize;
