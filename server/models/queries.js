@@ -2,8 +2,7 @@ const db = require('./db.js');
 
 const queries = {
 
-  getAll: async (id, count = 5, page = 0, sort = 'newest') => {
-
+  getAll: async (id, count, page, sort) => {
     const sortOptions = {
       newest: 'DATE',
       helpful: 'HELPFULNESS',
