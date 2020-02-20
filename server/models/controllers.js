@@ -10,6 +10,7 @@ const actions = {
 
   addReview: async (req, res) => {
     const { productId } = req.params;
+    console.log(req.body);
     res.status(201).send('post route served');
   },
 

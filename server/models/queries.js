@@ -2,11 +2,18 @@ const db = require('./db.js');
 
 const queries = {
 
-  getAll: async (id, count = 5, page = 0) => {
+  getAll: async (id, count = 5, page = 0, sort = 'newest') => {
+
+    const sortOptions = {
+      newest: 'DATE',
+      helpful: 'HELPFULNESS',
+      relevance: 'HELPFULNESS DESC, DATE ',
+    };
+
     try {
       const [results] = await db.query(`SELECT * FROM reviews
       LEFT JOIN photos on reviews .id = photos.review_id
-      WHERE product_id = ${id} ORDER BY DATE DESC LIMIT ${count}`);
+      WHERE product_id = ${id} ORDER BY ${sortOptions[sort]} DESC LIMIT ${count}`);
 
       const res = results.map((row) => (
         {
@@ -24,14 +31,15 @@ const queries = {
         }
       ));
 
-      const photos = results.map((row) => {
-        return row.photo_id ? row.photos = { id: row.photo_id, review_id: row.review_id, url: row.url } : null;
-      });
+      const photos = results.map((row) => (
+        row.photo_id ? { id: row.photo_id, url: row.url, review_id: row.review_id } : null
+      ));
 
       photos.forEach((photo) => {
         if (photo) {
           res.forEach((record) => {
             if (record.review_id === photo.review_id) {
+              delete photo.review_id;
               record.photos.push(photo);
             }
           });
