@@ -66,6 +66,26 @@ const queries = {
   //   }
   // },
 
+  meta: async (id) => {
+    try {
+      const [reviewData] = await db.query(`SELECT rating, recommend FROM REVIEWS WHERE product_id = ${id}`);
+      const results = {
+        product_id: id,
+        ratings: {},
+        recommended: {},
+        characteristics: {},
+      };
+
+      reviewData.forEach(row => {
+        console.log(row);
+      })
+
+      return results;
+    } catch(err) {
+      return err;
+    }
+  },
+
   helpful: async (id) => {
     try {
       const results = await db.query(`UPDATE reviews SET helpfulness = helpfulness + 1 WHERE id =${id}`);

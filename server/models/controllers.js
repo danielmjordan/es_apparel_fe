@@ -18,7 +18,8 @@ const actions = {
 
   meta: async (req, res) => {
     const { productId } = req.params;
-    res.status(200).send('Metadata returned from this end point');
+    const results = await query.meta(productId);
+    res.status(200).send(results);
   },
 
   markHelpful: async (req, res) => {
