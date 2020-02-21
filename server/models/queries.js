@@ -73,7 +73,7 @@ const queries = {
       const [reviewData] = await db.query(`SELECT rating, recommend FROM REVIEWS WHERE product_id = ${id}`);
       const [charsData] = await db.query(`SELECT name, characteristic_id as id, AVG(value) FROM characteristics
       LEFT JOIN char_reviews ON characteristics .id = characteristic_id
-      WHERE product_id = ${id} GROUP BY characteristic_id, name ORDER BY id`);
+      WHERE product_id = ${id} AND characteristic_id IS NOT NULL GROUP BY characteristic_id, name ORDER BY id`);
 
       const results = {
         product_id: id,
