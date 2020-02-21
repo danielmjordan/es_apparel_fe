@@ -7,13 +7,13 @@ const actions = {
     const count = req.query.count ? req.query.count : 5;
     const page = req.query.page ? req.query.page : 0;
     const sort = req.query.sort ? req.query.sort : 'newest';
-    const results = await query.getAll(productId, count, page, sort);
+    const results = await query.getReviews(productId, count, page, sort);
     res.status(200).send(results);
   },
 
   addReview: async (req, res) => {
     const { productId } = req.params;
-    res.status(201).send('post route served');
+    res.status(201).send('Post route served');
   },
 
   meta: async (req, res) => {

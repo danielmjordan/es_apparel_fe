@@ -4,7 +4,7 @@ const db = require('./db.js');
 
 const queries = {
 
-  getAll: async (id, count, page, sort) => {
+  getReviews: async (id, count, page, sort) => {
     const sortOptions = {
       newest: 'DATE',
       helpful: 'HELPFULNESS',
@@ -71,6 +71,10 @@ const queries = {
   meta: async (id) => {
     try {
       const [reviewData] = await db.query(`SELECT rating, recommend FROM REVIEWS WHERE product_id = ${id}`);
+      const [charsData] = await db.query(`SELECT name, characteristic_id as id, AVG(value) FROM characteristics
+      LEFT JOIN char_reviews ON characteristics .id = characteristic_id
+      WHERE product_id = ${id} GROUP BY characteristic_id, name ORDER BY id`);
+
       const results = {
         product_id: id,
         ratings: {},
@@ -84,6 +88,15 @@ const queries = {
         !recommended[row.recommend] ? recommended[row.recommend] = 1 : recommended[row.recommend]++;
       });
 
+      charsData.forEach((row) => {
+        const { characteristics } = results;
+        if (!characteristics[row.name]) {
+          characteristics[row.name] = {
+            id: row.id,
+            value: Number(row.avg).toFixed(4),
+          };
+        }
+      });
 
       return results;
     } catch (err) {
