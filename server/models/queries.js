@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-unused-expressions */
 const db = require('./db.js');
 
 const queries = {
@@ -76,12 +78,15 @@ const queries = {
         characteristics: {},
       };
 
-      reviewData.forEach(row => {
-        console.log(row);
-      })
+      reviewData.forEach((row) => {
+        const { ratings, recommended } = results;
+        !ratings[row.rating] ? ratings[row.rating] = 1 : ratings[row.rating]++;
+        !recommended[row.recommend] ? recommended[row.recommend] = 1 : recommended[row.recommend]++;
+      });
+
 
       return results;
-    } catch(err) {
+    } catch (err) {
       return err;
     }
   },
