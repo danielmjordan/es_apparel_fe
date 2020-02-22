@@ -59,21 +59,41 @@ const queries = {
     }
   },
 
-  // addReview: async (id) => {
-  //   try {
-  //     const results = await db.query(`INSERT into`)
-  //     return results;
-  //   } catch (err) {
-  //     return err;
-  //   }
-  // },
+  postReview: async (id, reviewBody) => {
+    const {
+      rating, summary, body, recommend, name, email, photos, characteristics,
+    } = reviewBody;
+    try {
+      const reviewId = await db.query(`INSERT INTO REVIEWS (product_id, rating, summary, body, recommend, reviewer_name, reviewer_email)
+      VALUES (${id}, ${rating}, '${summary}', '${body}', ${recommend}, '${name}', '${email}') RETURNING id as review_id`);
+
+      const currentReviewId = reviewId[0][0].review_id;
+
+      Object.keys(characteristics).forEach((key) => {
+        const charId = key;
+        const val = characteristics[key];
+
+        db.query(`INSERT INTO char_reviews (characteristic_id, review_id, value) VALUES (${charId}, ${currentReviewId}, ${val})`);
+      });
+
+      if (photos) {
+        await photos.forEach((photo) => {
+          db.query(`INSERT INTO PHOTOS (review_id, url) VALUES (${currentReviewId}, '${photo}')`);
+        });
+      }
+
+      return currentReviewId;
+    } catch (err) {
+      return err;
+    }
+  },
 
   meta: async (id) => {
     try {
       const [reviewData] = await db.query(`SELECT rating, recommend FROM REVIEWS WHERE product_id = ${id}`);
       const [charsData] = await db.query(`SELECT name, characteristic_id as id, AVG(value) FROM characteristics
       LEFT JOIN char_reviews ON characteristics .id = characteristic_id
-      WHERE product_id = ${id} AND characteristic_id IS NOT NULL GROUP BY characteristic_id, name ORDER BY id`);
+      WHERE product_id = ${id} GROUP BY characteristic_id, name ORDER BY id`);
 
       const results = {
         product_id: id,
