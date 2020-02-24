@@ -1,0 +1,39 @@
+config:
+  target: 'https://localhost:3000'
+  variables:
+    # - id: $randomNumber(1, 100)
+  phases:
+  - duration: 30
+    arrivalRate: 5
+    name: "Warming up the application"
+  - duration: 60
+    arrivalRate: 5
+    rampTo: 50
+    name: "Warming still"
+  - duration: 120
+    arrivalRate: 50
+    rampTo: 150
+    name: "Intermediary load ramping up"
+  - duration: 240
+    arrivalRate: 200
+    rampTo: 250
+    name: "Near max load ramping up"
+scenarios:
+  - flow:
+    - get:
+        weight: 5
+        url: "http://localhost:3000/reviews/1/list?count=2"
+    - get:
+        weight: 5
+        url: "http://localhost:3000/reviews/1/meta"
+    - think: 5
+    - get:
+        weight: 3
+        url: "http://localhost:3000/reviews/1/list?count=4"
+    - put:
+        weight: 1
+        url: "http://localhost:3000/reviews/helpful/100000"
+
+
+
+

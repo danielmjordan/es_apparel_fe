@@ -26,7 +26,6 @@ const queries = {
           body: row.body,
           date: row.date,
           reviewer_name: row.reviewer_name,
-          reviewer_email: row.reviewer_email,
           helpfulness: row.helpfulness,
           photos: [],
         }

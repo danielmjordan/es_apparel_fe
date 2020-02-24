@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 require('dotenv').config();
+const nr = require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -10,6 +11,7 @@ const PORT = process.env.SERVER_PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
+
 
 app.get('/reviews/:productId/list', controller.getReviews);
 app.get('/reviews/:productId/meta', controller.meta);
