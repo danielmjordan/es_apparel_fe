@@ -66,7 +66,7 @@ class Form extends React.Component {
       try {
         e.preventDefault();
         e.persist();
-        const response = await fetch(`http://3.134.102.30/reviews/${id}`, {
+        const response = await fetch(`http://localhost:3001/reviews/${id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -274,5 +274,4 @@ Form.propTypes = {
   getReviews: propTypes.func.isRequired,
   toggleModal: propTypes.func.isRequired,
   show: propTypes.bool.isRequired,
-  factors: propTypes.shape({}).isRequired,
 };

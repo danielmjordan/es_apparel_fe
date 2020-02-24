@@ -8,7 +8,7 @@ const actions = {
     const page = req.query.page ? req.query.page : 0;
     const sort = req.query.sort ? req.query.sort : 'newest';
     const results = await query.getReviews(productId, count, page, sort);
-    res.status(200).send(results).json();
+    res.status(200).send(results);
   },
 
   addReview: async (req, res) => {

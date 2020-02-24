@@ -31,7 +31,7 @@ const ReviewList = ({
         ) {
           return (
             <ListItem
-              key={review.review_id}
+              key={review.review_id + 10}
               id={review.review_id}
               rating={review.rating}
               user={review.reviewer_name}
