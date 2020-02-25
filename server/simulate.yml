@@ -1,7 +1,5 @@
 config:
-  target: 'https://localhost:3000'
-  variables:
-    # - id: $randomNumber(1, 100)
+  target: 'https://localhost:3001'
   phases:
   - duration: 30
     arrivalRate: 5
@@ -9,30 +7,30 @@ config:
   - duration: 60
     arrivalRate: 5
     rampTo: 50
-    name: "Warming still"
-  - duration: 120
+    name: "Warming up"
+  - duration: 60
     arrivalRate: 50
-    rampTo: 150
-    name: "Intermediary load ramping up"
-  - duration: 240
-    arrivalRate: 200
-    rampTo: 250
-    name: "Near max load ramping up"
+    rampTo: 75
+    name: "Incrementally increase load"
+  - duration: 60
+    arrivalRate: 100
+    name: "Near maximum load capacity"
 scenarios:
   - flow:
     - get:
         weight: 5
-        url: "http://localhost:3000/reviews/1/list?count=2"
+        url: "http://localhost:3001/reviews/{{ $randomNumber(1, 100) }}/list?count=2"
     - get:
         weight: 5
-        url: "http://localhost:3000/reviews/1/meta"
+        url: "http://localhost:3001/reviews/{{ $randomNumber(1, 100) }}/meta"
     - think: 5
     - get:
-        weight: 3
-        url: "http://localhost:3000/reviews/1/list?count=4"
+        weight: 1
+        url: "http://localhost:3001/reviews/{{ $randomNumber(1, 100)}}/list?count=2"
+    - think: 3
     - put:
         weight: 1
-        url: "http://localhost:3000/reviews/helpful/100000"
+        url: "http://localhost:3003/reviews/helpful/{{ $randomNumber(10000000, 10010000)}}"
 
 
 

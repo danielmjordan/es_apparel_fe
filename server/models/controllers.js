@@ -14,8 +14,8 @@ const actions = {
   addReview: async (req, res) => {
     const { productId } = req.params;
     const reviewBody = req.body;
-    const response = await query.postReview(productId, reviewBody);
-    res.status(201).send('Review posted successfully');
+    const postId = await query.postReview(productId, reviewBody);
+    res.status(201).send(postId);
   },
 
   meta: async (req, res) => {
