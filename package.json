@@ -17,7 +17,6 @@
     "enzyme-adapter-react-16": "^1.15.2",
     "express": "^4.17.1",
     "faker": "^4.1.0",
-    "material-auto-rotating-carousel": "^3.0.2",
     "moment": "^2.24.0",
     "newrelic": "^6.4.1",
     "node-sass": "^4.13.1",
@@ -26,11 +25,9 @@
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-magnifier": "^3.0.4",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
-    "react-swipeable-views": "^0.13.8",
     "sequelize": "^5.21.4"
   },
   "scripts": {
