@@ -41,6 +41,7 @@ class Form extends React.Component {
   }
 
   getProductInfo = async () => {
+    console.log(process.env.REACT_APP_API_ROUTE)
     const { id } = this.props;
     const data = await fetch(`${process.env.REACT_APP_API_ROUTE}/products/${id}`);
     const results = await data.json();
@@ -66,7 +67,7 @@ class Form extends React.Component {
       try {
         e.preventDefault();
         e.persist();
-        const response = await fetch(`http://localhost:3001/reviews/${id}`, {
+        const response = await fetch(`http://18.212.32.182/reviews/${id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

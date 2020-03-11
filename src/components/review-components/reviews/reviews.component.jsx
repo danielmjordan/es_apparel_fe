@@ -36,7 +36,7 @@ class Reviews extends React.Component {
     const { id } = this.props;
     const { sort } = this.state;
     try {
-      const data = await fetch(`http://localhost:3001/reviews/${id}/list?count=1000&sort=${sort}`);
+      const data = await fetch(`http://18.212.32.182/reviews/${id}/list?count=1000&sort=${sort}`);
       const res = await data.json();
       this.setState({ reviews: res.results, filteredReviews: res.results });
     } catch (err) {
@@ -47,7 +47,7 @@ class Reviews extends React.Component {
   getRatings = async () => {
     const { id } = this.props;
     try {
-      const data = await fetch(`http://localhost:3001/reviews/${id}/meta`);
+      const data = await fetch(`http://18.212.32.182/reviews/${id}/meta`);
       const results = await data.json();
       const apiRes = results.ratings;
       const defaultRatings = {

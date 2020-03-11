@@ -29,7 +29,7 @@ const writeFiles = (string) => {
 
 const getFiveMillionRecords = () => {
   const t1 = performance.now();
-  for (let i = 9999999; i < 10010001; i += 1) {
+  for (let i = 0; i < 10000; i += 1) {
     const record = generateRecord();
     writeFiles(`${i},${record}`);
   }

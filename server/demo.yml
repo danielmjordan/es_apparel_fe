@@ -1,0 +1,31 @@
+config:
+  target: 'https://18.212.65.251'
+  phases:
+  - duration: 30
+    arrivalRate: 5
+    rampTo: 25
+    name: "Warming up the application"
+  - duration: 30
+    arrivalRate: 5
+    rampTo: 50
+    name: "Warming up"
+  - duration: 30
+    arrivalRate: 50
+    rampTo: 100
+    name: "Reaching max load"
+scenarios:
+  - flow:
+    - get:
+        weight: 5
+        url: "http://18.212.65.251/reviews/1/list?count=2"
+    # - get:
+    #     weight: 5
+    #     url: "http://18.212.65.251/reviews/{{ $randomNumber(1, 100) }}/meta"
+    # - think: 5
+    # - get:
+    #     weight: 1
+    #     url: "http://18.212.65.251/reviews/{{ $randomNumber(1, 100)}}/list?count=2"
+    # - think: 3
+    # - put:
+    #     weight: 1
+    #     url: "http://18.212.65.251/reviews/helpful/{{ $randomNumber(10000000, 10010000)}}"
